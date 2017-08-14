@@ -12,12 +12,11 @@ use limx\Github\Utils\Curl;
 
 class User
 {
-    
+    public $result = [];
 
     public function __construct($token)
     {
         $this->token = $token;
-        $res = Curl::get('https://api.github.com/user', $token);
-
+        $this->result = Curl::get('https://api.github.com/user', $token);
     }
 }

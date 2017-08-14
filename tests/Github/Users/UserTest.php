@@ -16,6 +16,7 @@ class UserTest extends TestCase
     public function testBaseCase()
     {
         $github = new Application(['token' => '']);
-        echo $github->user->token;
+        $user = $github->user->result;
+        print_r($user);
     }
 }
