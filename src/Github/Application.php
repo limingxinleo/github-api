@@ -9,14 +9,11 @@
 namespace limx\Github;
 
 use Pimple\Container;
-use Config;
 
 /**
  * Class Application
  * @package limx\Github
- * @property Opt      $opt
- * @property Client   $client
- * @property Response $response
+ * @property Config $config
  */
 class Application extends Container
 {
@@ -26,9 +23,7 @@ class Application extends Container
      * @var array
      */
     protected $providers = [
-        ServiceProviders\OptServiceProvider::class,
-        ServiceProviders\ClientServiceProvider::class,
-        ServiceProviders\ResponseServiceProvider::class,
+        ServiceProviders\UserServiceProvider::class,
     ];
 
     /**
@@ -36,9 +31,13 @@ class Application extends Container
      *
      * @param array $config
      */
-    public function __construct()
+    public function __construct($config)
     {
         parent::__construct();
+
+        $this['config'] = function () use ($config) {
+            return new Config($config);
+        };
 
         $this->registerProviders();
 
