@@ -14,9 +14,11 @@ class User
 {
     public $result = [];
 
+    public $api = 'https://api.github.com/user';
+
     public function __construct($token)
     {
         $this->token = $token;
-        $this->result = Curl::get('https://api.github.com/user', $token);
+        $this->result = Curl::get($this->api, $token);
     }
 }
