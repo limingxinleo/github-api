@@ -8,9 +8,11 @@
 // +----------------------------------------------------------------------
 namespace limx\Github\Utils;
 
+use limx\github\Exceptions\HttpException;
+
 class Curl
 {
-    public static function get($url, $token, $params = null)
+    public static function get($url, $token = null, $params = null)
     {
         if (isset($params)) {
             $body = http_build_query($params);
@@ -27,19 +29,20 @@ class Curl
         // 启用时会将服务器服务器返回的"Location: "放在header中递归的返回给服务器，使用CURLOPT_MAXREDIRS可以限定递归返回的数量。
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
         // 超时时间
-        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
 
         // 设置header
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'Authorization: token ' . $token,
-            'User-Agent: Wechat-Github-App'
-        ]);
+        $headers = [];
+        $headers[] = 'User-Agent: Wechat-Github-App';
+        if (isset($token)) {
+            $headers[] = 'Authorization: token ' . $token;
+        }
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
         //执行命令
         $result = curl_exec($ch);
         if ($result === false) {
-            // static::logInfo($url, $params, [], curl_error($ch));
-            return false;
+            throw new HttpException(curl_error($ch));
         }
         //关闭URL请求
         curl_close($ch);

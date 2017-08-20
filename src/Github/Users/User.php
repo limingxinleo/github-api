@@ -16,9 +16,29 @@ class User
 
     public $api = 'https://api.github.com/user';
 
-    public function __construct($token)
+    public function __construct($result)
     {
-        $this->token = $token;
-        $this->result = Curl::get($this->api, $token);
+        $this->result = $result;
+    }
+
+    public function __get($key)
+    {
+        $method = [
+            'followers', 'following', 'starred', 'repos'
+        ];
+        if (in_array($key, $method)) {
+            $url = $this->result[$key . '_url'];
+            $res = Curl::get($url);
+            $result = [];
+
+            foreach ($res as $item) {
+                if ($key == 'followers' || $key = 'following') {
+                    $result[] = new static($item);
+                }
+            }
+
+            return $result;
+        }
+        return $this->result[$key];
     }
 }

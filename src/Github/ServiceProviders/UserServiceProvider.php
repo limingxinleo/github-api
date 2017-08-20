@@ -9,6 +9,7 @@
 namespace limx\Github\ServiceProviders;
 
 use limx\Github\Users\User;
+use limx\Github\Utils\Curl;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
@@ -18,7 +19,10 @@ class UserServiceProvider implements ServiceProviderInterface
     {
         $pimple['user'] = function ($pimple) {
             $config = $pimple['config'];
-            return new User($config['token']);
+            $api = 'https://api.github.com/user';
+
+            $result = Curl::get($api, $config['token']);
+            return new User($result);
         };
     }
 

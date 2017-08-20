@@ -8,15 +8,21 @@
 // +----------------------------------------------------------------------
 namespace Tests\Github\Users;
 
-use limx\Github\Application;
 use Tests\Github\Base;
 
 class UserTest extends Base
 {
     public function testBaseCase()
     {
-        $github = new Application(['token' => $this->token]);
-        $user = $github->user->result;
-        print_r($user);
+        $user = $this->github->user->result;
+        $this->assertTrue($user['id'] > 0);
+    }
+
+    public function testFollowersCase()
+    {
+        $followers = $this->github->user->followers;
+        foreach ($followers as $follower) {
+            $this->assertTrue($follower->id > 0);
+        }
     }
 }

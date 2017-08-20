@@ -1,23 +1,26 @@
 <?php
 // +----------------------------------------------------------------------
-// | BaseTest.php [ WE CAN DO IT JUST THINK IT ]
+// | Followers.php [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
 // | Copyright (c) 2016-2017 limingxinleo All rights reserved.
 // +----------------------------------------------------------------------
 // | Author: limx <715557344@qq.com> <https://github.com/limingxinleo>
 // +----------------------------------------------------------------------
-namespace Tests\Github;
+namespace limx\Github\Users;
 
-use PHPUnit\Framework\TestCase;
-use limx\Github\Application;
+use limx\Github\Utils\Curl;
 
-abstract class Base extends TestCase
+class Followers
 {
-    protected $token = GITHUB_TOKEN;
-    protected $github;
+    public $result = [];
 
-    public function __construct()
+    public $api;
+
+    public function __construct($followersUrl, $token)
     {
-        $this->github = new Application(['token' => $this->token]);
+        $this->token = $token;
+        $this->api = $followersUrl;
+
+        $this->result = Curl::get($this->api, $token);
     }
 }
