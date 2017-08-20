@@ -25,4 +25,12 @@ class UserTest extends Base
             $this->assertTrue($follower->id > 0);
         }
     }
+
+    public function testFollowingCase()
+    {
+        $users = $this->github->user->following;
+        foreach ($users as $user) {
+            $this->assertTrue($user->id > 0);
+        }
+    }
 }
