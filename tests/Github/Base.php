@@ -1,14 +1,16 @@
 <?php
 // +----------------------------------------------------------------------
-// | bootstrap.php [ WE CAN DO IT JUST THINK IT ]
+// | BaseTest.php [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
 // | Copyright (c) 2016-2017 limingxinleo All rights reserved.
 // +----------------------------------------------------------------------
 // | Author: limx <715557344@qq.com> <https://github.com/limingxinleo>
 // +----------------------------------------------------------------------
-define('ROOT_PATH', __DIR__ . '/..');
+namespace Tests\Github;
 
-$token = include_once 'token.php';
-define('GITHUB_TOKEN', $token);
+use PHPUnit\Framework\TestCase;
 
-require __DIR__ . '/../vendor/autoload.php';
+abstract class Base extends TestCase
+{
+    protected $token = GITHUB_TOKEN;
+}

@@ -8,6 +8,11 @@
             "limx\\": "src"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests"
+        }
+    },
     "require": {
         "php": ">=5.6.0",
         "pimple/pimple": "^3.0",

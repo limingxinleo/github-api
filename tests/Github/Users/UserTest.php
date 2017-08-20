@@ -9,13 +9,13 @@
 namespace Tests\Github\Users;
 
 use limx\Github\Application;
-use PHPUnit\Framework\TestCase;
+use Tests\Github\Base;
 
-class UserTest extends TestCase
+class UserTest extends Base
 {
     public function testBaseCase()
     {
-        $github = new Application(['token' => '']);
+        $github = new Application(['token' => $this->token]);
         $user = $github->user->result;
         print_r($user);
     }
