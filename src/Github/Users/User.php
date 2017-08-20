@@ -26,17 +26,22 @@ class User
 
     public function __get($key)
     {
+        if (isset($this->result[$key])) {
+            return $this->result[$key];
+        }
+
         $methods = [
-            'followers', 'following', 'starred', 'repos'
+            'mFollowers', 'mFollowing', 'mStarred', 'mRepos'
         ];
         if (in_array($key, $methods)) {
             $method = $key;
             return $this->$method();
         }
-        return $this->result[$key];
+
+        return null;
     }
 
-    public function followers()
+    public function mFollowers()
     {
         $url = sprintf("%s/%s/followers", $this->api, $this->login);
         $res = Curl::get($url);
@@ -44,10 +49,11 @@ class User
         foreach ($res as $user) {
             $result[] = new static($user);
         }
+        $this->result['mFollowers'] = $result;
         return $result;
     }
 
-    public function following()
+    public function mFollowing()
     {
         $url = sprintf("%s/%s/following", $this->api, $this->login);
         $res = Curl::get($url);
@@ -55,10 +61,11 @@ class User
         foreach ($res as $user) {
             $result[] = new static($user);
         }
+        $this->result['mFollowing'] = $result;
         return $result;
     }
 
-    public function repos()
+    public function mRepos()
     {
         $url = sprintf("%s/%s/repos", $this->api, $this->login);
         $res = Curl::get($url);
@@ -67,6 +74,7 @@ class User
         foreach ($res as $repo) {
             $result[] = new Repo($repo);
         }
+        $this->result['mRepos'] = $result;
         return $result;
     }
 

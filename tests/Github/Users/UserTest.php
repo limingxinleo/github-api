@@ -21,28 +21,28 @@ class UserTest extends Base
 
     public function testFollowersCase()
     {
-        $users = $this->github->user->followers;
+        $users = $this->github->user->mFollowers;
         if (count($users) > 0) {
             $this->assertTrue($users[0]->id > 0);
         }
+        $this->assertTrue($this->github->user->followers > 0);
     }
 
     public function testFollowingCase()
     {
-        $users = $this->github->user->following;
+        $users = $this->github->user->mFollowing;
         if (count($users) > 0) {
             $this->assertTrue($users[0]->id > 0);
         }
+        $this->assertTrue($this->github->user->following > 0);
     }
 
     public function testReposCase()
     {
-        $repos = $this->github->user->repos;
+        $repos = $this->github->user->mRepos;
         if (count($repos) > 0) {
             $this->assertTrue($repos[0]->id > 0);
             $this->assertTrue($repos[0]->owner->id > 0);
         }
-        print_r($repos[0]);
-        print_r($repos[0]->owner);
     }
 }
