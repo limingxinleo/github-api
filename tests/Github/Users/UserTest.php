@@ -15,22 +15,34 @@ class UserTest extends Base
     public function testBaseCase()
     {
         $user = $this->github->user->result;
+        // print_r($user);
         $this->assertTrue($user['id'] > 0);
     }
 
     public function testFollowersCase()
     {
-        $followers = $this->github->user->followers;
-        foreach ($followers as $follower) {
-            $this->assertTrue($follower->id > 0);
+        $users = $this->github->user->followers;
+        if (count($users) > 0) {
+            $this->assertTrue($users[0]->id > 0);
         }
     }
 
     public function testFollowingCase()
     {
         $users = $this->github->user->following;
-        foreach ($users as $user) {
-            $this->assertTrue($user->id > 0);
+        if (count($users) > 0) {
+            $this->assertTrue($users[0]->id > 0);
         }
+    }
+
+    public function testReposCase()
+    {
+        $repos = $this->github->user->repos;
+        if (count($repos) > 0) {
+            $this->assertTrue($repos[0]->id > 0);
+            $this->assertTrue($repos[0]->owner->id > 0);
+        }
+        print_r($repos[0]);
+        print_r($repos[0]->owner);
     }
 }

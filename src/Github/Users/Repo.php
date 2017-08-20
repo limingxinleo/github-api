@@ -1,6 +1,6 @@
 <?php
 // +----------------------------------------------------------------------
-// | Followers.php [ WE CAN DO IT JUST THINK IT ]
+// | Repo.php [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
 // | Copyright (c) 2016-2017 limingxinleo All rights reserved.
 // +----------------------------------------------------------------------
@@ -10,17 +10,28 @@ namespace limx\Github\Users;
 
 use limx\Github\Utils\Curl;
 
-class Followers
+class Repo
 {
-    public $result = [];
+    public $result;
 
-    public $api;
-
-    public function __construct($followersUrl, $token)
+    public function __construct($repo)
     {
-        $this->token = $token;
-        $this->api = $followersUrl;
+        $this->result = $repo;
+    }
 
-        $this->result = Curl::get($this->api, $token);
+    public function __get($name)
+    {
+        $methods = [
+            'owner'
+        ];
+        if (in_array($name, $methods)) {
+            return $this->$name();
+        }
+        return $this->result[$name];
+    }
+
+    public function owner()
+    {
+        return new User($this->result['owner']);
     }
 }

@@ -9,7 +9,6 @@
 namespace limx\Github\Users;
 
 use limx\Github\Utils\Curl;
-use limx\Support\Str;
 
 class User
 {
@@ -58,6 +57,20 @@ class User
         }
         return $result;
     }
+
+    public function repos()
+    {
+        $url = sprintf("%s/%s/repos", $this->api, $this->login);
+        $res = Curl::get($url);
+
+        $result = [];
+        foreach ($res as $repo) {
+            $result[] = new Repo($repo);
+        }
+        return $result;
+    }
+
+    // public function
 
     // public function __call($name, $arguments)
     // {
