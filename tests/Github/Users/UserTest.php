@@ -42,7 +42,7 @@ class UserTest extends Base
         $repos = $this->github->user->mRepos;
         if (count($repos) > 0) {
             $this->assertTrue($repos[0]->id > 0);
-            $this->assertTrue($repos[0]->owner->id > 0);
+            $this->assertTrue($repos[0]->mOwner->id > 0);
         }
     }
 }

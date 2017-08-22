@@ -21,16 +21,21 @@ class Repo
 
     public function __get($name)
     {
+        if (isset($this->result[$name])) {
+            return $this->result[$name];
+        }
+
         $methods = [
-            'owner'
+            'mOwner'
         ];
         if (in_array($name, $methods)) {
             return $this->$name();
         }
-        return $this->result[$name];
+
+        return null;
     }
 
-    public function owner()
+    public function mOwner()
     {
         return new User($this->result['owner']);
     }
